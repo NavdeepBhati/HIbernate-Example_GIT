@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Extract method &apos;protected static void persist(Session session, Transaction t)&apos; from &apos;com.beans.MainClass.main()&apos; to &apos;com.beans.MainClass&apos;&#x0D;&#x0A;- Original project: &apos;OneToMany&apos;&#x0D;&#x0A;- Method name: &apos;persist&apos;&#x0D;&#x0A;- Destination type: &apos;com.beans.MainClass&apos;&#x0D;&#x0A;- Declared visibility: &apos;protected&apos;" comments="false" description="Extract method &apos;persist&apos;" destination="0" exceptions="false" flags="786434" id="org.eclipse.jdt.ui.extract.method" input="/src&lt;com.beans{MainClass.java" name="persist" replace="false" selection="480 822" stamp="1504810706535" version="1.0" visibility="4"/>
+</session>
