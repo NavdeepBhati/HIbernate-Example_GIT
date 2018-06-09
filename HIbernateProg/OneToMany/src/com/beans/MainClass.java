@@ -5,23 +5,38 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.AnnotationConfiguration;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
 
 public class MainClass {
 
+	static Session sessionObj;
+
+	static SessionFactory sessionFactoryObj;
+
 	public static void main(String[] args) {
+		buildSessionFactory();
+	//	Session session = new AnnotationConfiguration().configure().buildSessionFactory().openSession();
+		Session session = sessionFactoryObj.openSession();
 
-		Session session = new AnnotationConfiguration().configure().buildSessionFactory().openSession();
-
-		Transaction t = session.beginTransaction();
-			
-
-		//fetch(session);
+		// fetch(session);
 		fetch2b(session);
 
 		// persist(session, t);
 
+	}
+
+	private static SessionFactory buildSessionFactory() {
+		Configuration configObj = new Configuration();
+		configObj.configure("hibernate.cfg.xml");
+
+		ServiceRegistry serviceRegistryObj = new StandardServiceRegistryBuilder().applySettings(configObj.getProperties()).build();
+		sessionFactoryObj = configObj.buildSessionFactory(serviceRegistryObj);
+		return sessionFactoryObj;
 	}
 
 	protected static void persist(Session session, Transaction t) {
@@ -81,7 +96,6 @@ public class MainClass {
 		List deplist = session.createQuery("FROM Department").list();
 
 		Department d = (Department) deplist.get(0);
-
 
 		System.out.println("employeeb    " + d.getName());
 
