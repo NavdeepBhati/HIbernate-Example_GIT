@@ -3,6 +3,7 @@ package com.beansB;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -22,7 +23,7 @@ public class Department {
 	
 	
 	
-	@OneToMany(mappedBy="department", fetch=FetchType.LAZY)           //mappedBY is necessary otherwise we wont be able to fetch the values bidirectionally
+	@OneToMany(mappedBy="department", fetch=FetchType.EAGER,cascade=CascadeType.ALL)           //mappedBY is necessary otherwise we wont be able to fetch the values bidirectionally
 	List<Person> plist = new ArrayList<>();
 	
 	
@@ -62,6 +63,12 @@ public class Department {
 	public void setName(String name) {
 		this.name = name;
 	}
+	@Override
+	public String toString() {
+		return "Department [id=" + id + ", name=" + name + "]";
+	}
+	
+	
 	
 	
 	

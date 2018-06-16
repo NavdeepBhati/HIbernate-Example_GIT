@@ -1,13 +1,22 @@
 package com.javatpoint;
 
-import org.hibernate.*;
-import org.hibernate.cfg.*;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
 
 public class Test {
 	
 	
+private static SessionFactory sessionFactoryObj;
+
 public static void main(String[] args) {
-	Session session=new AnnotationConfiguration().configure().buildSessionFactory().openSession();
+	//Session session=new AnnotationConfiguration().configure().buildSessionFactory().openSession();
+	buildSessionFactory();
+	Session session = sessionFactoryObj.openSession();
+
 	
 	Transaction t=session.beginTransaction();
 	
@@ -28,4 +37,14 @@ public static void main(String[] args) {
 	session.close();
 	System.out.println("successfully saved");
 }
+
+private static SessionFactory buildSessionFactory() {
+	Configuration configObj = new Configuration();
+	configObj.configure("hibernate.cfg.xml");
+
+	ServiceRegistry serviceRegistryObj = new StandardServiceRegistryBuilder().applySettings(configObj.getProperties()).build();
+	 sessionFactoryObj = configObj.buildSessionFactory(serviceRegistryObj);
+	return sessionFactoryObj;
+}
+
 }

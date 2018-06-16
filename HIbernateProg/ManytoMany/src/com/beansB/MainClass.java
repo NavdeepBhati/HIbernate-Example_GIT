@@ -4,27 +4,44 @@ import java.util.List;
 import java.util.Set;
 
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.cfg.AnnotationConfiguration;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
 
 public class MainClass {
 
+	static SessionFactory sessionFactoryObj;
+
+
 	public static void main(String[] args) {
 
-		Session session = new AnnotationConfiguration().configure().buildSessionFactory().openSession();
 
-		Transaction t = session.beginTransaction();
+		buildSessionFactory();
 
-//		fetch(session);
-		fetch2(session);
+		 persist();
+		fetch();
+		fetch2();
 
-		// persist(session, t);
+	
 
 	}
 
 	
+	private static SessionFactory buildSessionFactory() {
+		Configuration configObj = new Configuration();
+		configObj.configure("hibernate.cfg.xml");
 
-	private static void persist(Session session, Transaction t) {
+		ServiceRegistry serviceRegistryObj = new StandardServiceRegistryBuilder().applySettings(configObj.getProperties()).build();
+		sessionFactoryObj = configObj.buildSessionFactory(serviceRegistryObj);
+		return sessionFactoryObj;
+	}
+
+	private static void persist() {
+		
+		Session session = sessionFactoryObj.openSession();
+		Transaction t = session.beginTransaction();
 		Department d1 = new Department("HR");
 		Department d2 = new Department("ENG");
 		Department d3 = new Department("ADMIN");
@@ -60,8 +77,9 @@ public class MainClass {
 		System.out.println("saved successfully ");
 	}
 
-	private static void fetch(Session session) {
+	private static void fetch() {
 
+		Session session = sessionFactoryObj.openSession();
 		Transaction t = session.beginTransaction();
 
 		List deplist = session.createQuery("FROM Department").list();
@@ -85,7 +103,8 @@ public class MainClass {
 
 	}
 
-	private static void fetch2(Session session) {
+	private static void fetch2() {
+		Session session = sessionFactoryObj.openSession();
 		Transaction t = session.beginTransaction();
 
 		List perlist = session.createQuery("FROM Person").list();

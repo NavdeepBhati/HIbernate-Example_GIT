@@ -1,7 +1,6 @@
 package com.beansB;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -23,7 +22,7 @@ public class Person {
 	String pname;
 
 	@ManyToMany(cascade = { CascadeType.ALL })
-	@JoinTable(name = "PER_DEPT", joinColumns = { @JoinColumn(name = "Person") }, inverseJoinColumns = {
+	@JoinTable(name = "PER_DEPT", joinColumns = { @JoinColumn(name = "Person_ID") }, inverseJoinColumns = {
 			@JoinColumn(name = "DEPT_ID") })
 	Set<Department> dlist = new HashSet<>();
 
